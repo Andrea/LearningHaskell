@@ -20,10 +20,18 @@ data Config = Config
 
 Using Show , Show is a typeclass
 
-Applicatives
+Applicative are functors
+
 ```Haskell 
-<*>
-<$>
+import Control.Monad
+import Data.Maybe
+
+<*> --apply method
+<$> -- fmap
+
+liftM2
+fromMaybe
+forceEither
 ```
 
 #### Check out
