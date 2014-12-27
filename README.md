@@ -1,6 +1,16 @@
 Learning Haskell
 ===============
+
 These notes are personal, not sure how much sense they would make to anyone else. i.e read at your own risk :d
+#### Language basic things that I might forget (according to me )
+
+* if needs else
+* if is an expression 
+* an expression is code that returns a value
+* valid in functions name, usually used a non lazy function (strict)
+* Functions names start with lowercase 
+* When a function doesn't take any parameters, we usually say it's a definition (or a name). Because we can't change what names (and functions) mean once we've defined them
+* not sure how I feel about throwing exceptions
 
 ### File Parser
 
