@@ -14,5 +14,5 @@ Today I m going to stream trying to create a simple website with Haskell
 * Kept going changing the cabal file as stated here http://adit.io/posts/2013-04-15-making-a-website-with-haskell.html
 * ... downloads the whole internet :D My guess is that this is either the heroku tools or I did something really stupid =) and there I was...wanting to write some haskell ... 
 
-
+* Just found this http://activedeveloper.info/practical-haskell-converting-markdown-to-html.html
 
