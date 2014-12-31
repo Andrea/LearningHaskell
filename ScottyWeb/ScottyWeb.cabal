@@ -36,3 +36,4 @@ executable ScottyWeb
                      , wai-middleware-static
                      , wai-extra
                      , time
+                     , markdown 
