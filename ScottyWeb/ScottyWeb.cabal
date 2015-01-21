@@ -18,6 +18,7 @@ executable ScottyWeb
   main-is:             Main.hs
   -- other-modules:       
   build-depends:       base
+                     , directory  
                      , wai
                      , warp
                      , http-types
