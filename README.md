@@ -1,6 +1,8 @@
 Learning Haskell
 ===============
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Andrea/LearningHaskell?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 These notes are personal, not sure how much sense they would make to anyone else. i.e read at your own risk :d
 #### Language basic things that I might forget (according to me )
 
