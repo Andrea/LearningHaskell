@@ -9,9 +9,21 @@ import Text.Markdown
 import Web.Scotty
 
 main = scotty 3000 $ do
+  get"/:filename" $ do
+  	--(1)I would prefer to use /files/filename, but not sure how to do that?
+  	filename <- param "filename"
+  	--(2) What is the naming convention ?, and I guess I should know this but how to turn form string to the type alias FilePath?
+
+  	markdownFile <- readFile filename
+  	-- (3) use magic to 
+  	--  		* check if the file exists , I guess
+  	--  		* get html from markdown 
+  	html $ "<p>yay! got some stuff, but not really</p>"
   get "/files" $ do
    	files <- liftIO $ getDirectoryContents "Datas"
-   	html $ mconcat $ map (\x -> LT.pack (mconcat ["<p>", x, "</p>"])) files
+   	-- there must be a nice way to generate html and the strings ?
+   	-- How can I search for it?
+   	html $ mconcat $ map (\x -> LT.pack (mconcat ["<a>", x, "</a>"])) files
     
   get "/:word" $ do
     beam <- param "word"
