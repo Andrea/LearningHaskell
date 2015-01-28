@@ -5,33 +5,38 @@ import qualified Data.Text.Lazy as LT
 import Control.Monad.IO.Class (liftIO)
 import Network.HTTP.Types (status404)
 import System.Directory  
+import qualified Text.Blaze.Html5 as H
 import Text.Blaze.Html.Renderer.Text
 import Text.Markdown
 import qualified Web.Scotty as S
-import qualified Text.Blaze.Html5 as H
-import qualified Text.Blaze.Html5.Attributes as A
 
 
 main = S.scotty 3000 $ do
   S.get"/files/:filename" $ do    
     filename <- S.param "filename"
-    liftIO $ renderMarkdown filename
-    -- 25/01 doing the side effect first and then displaying
+    liftIO $ renderMarkdown filename    
     text <- liftIO $ renderMarkdown filename 
     display text
 
-
---    S.status status404
   S.get "/files" $ do
     files <- liftIO $ getDirectoryContents "Datas"
--- there must be a nice way to generate html and the strings ?
--- How can I search for it?
-    S.html $ mconcat $ Prelude.map (\x -> LT.pack (mconcat ["<a>", x, "</a>"])) files
-    
+-- original
+-- S.html $ mconcat $ Prelude.map (\x -> LT.pack (mconcat ["<a>", x, "</a>"])) files
+    S.html . renderHtml $ do
+       H.h1 "Files By Name" 
+-- Here I am trying to list all the files however I am not sure how to deal with types, I think 
+-- I'll figure it out, but I need to leave it here for today
+--      H.ul $ do
+--      mconcat $ Prelude.map (\x -> LT.pack (mconcat [H.a, x])) files
+
   S.get "/:word" $ do
     beam <- S.param "word"
     let beam' = renderHtml $ markdown def beam
-    S.html $ mconcat ["<h1>Scotty, ",beam', " me up!</h1>"]
+    let s = mconcat ["Scotty, ",beam', " me up!"]
+    S.html . renderHtml $ do
+                    H.body $ do
+                        H.h1 $ H.toHtml s -- Not ideal but getting there 
+                        -- What would be the way to deliver this without needing to use toHtml (this adds p :( )
 
 renderMarkdown :: String -> IO (Maybe LT.Text)
 renderMarkdown filename = do
