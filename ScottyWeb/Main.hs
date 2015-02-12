@@ -2,10 +2,13 @@
 
 import Data.Monoid (mconcat)
 import qualified Data.Text.Lazy as LT
+import Control.Monad
 import Control.Monad.IO.Class (liftIO)
 import Network.HTTP.Types (status404)
 import System.Directory  
 import qualified Text.Blaze.Html5 as H
+import qualified Text.Blaze.Html5.Attributes as HA
+
 import Text.Blaze.Html.Renderer.Text
 import Text.Markdown
 import qualified Web.Scotty as S
@@ -20,10 +23,11 @@ main = S.scotty 3000 $ do
 
   S.get "/files" $ do
     files <- liftIO $ getDirectoryContents "Datas"
--- original
--- S.html $ mconcat $ Prelude.map (\x -> LT.pack (mconcat ["<a>", x, "</a>"])) files
+
     S.html . renderHtml $ do
        H.h1 "Files By Name" 
+       H.ul $ forM_ files (H.li . (H.a H.! HA.href "screen.css"). H.string )
+       		
 -- Here I am trying to list all the files however I am not sure how to deal with types, I think 
 -- I'll figure it out, but I need to leave it here for today
 --      H.ul $ do
@@ -55,6 +59,9 @@ display Nothing = do
   S.html $ "boo 404 for you!!"
 display (Just t) = S.html t
 
+
+renderLink :: String -> H.Html
+renderLink = undefined
 --- create links to the files
 --- saves the files
 -- private function <- so that you can generate all your pages
