@@ -8,7 +8,6 @@ import Network.HTTP.Types (status404)
 import System.Directory  
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as HA
-
 import Text.Blaze.Html.Renderer.Text
 import Text.Markdown
 import qualified Web.Scotty as S
@@ -23,15 +22,10 @@ main = S.scotty 3000 $ do
 
   S.get "/files" $ do
     files <- liftIO $ getDirectoryContents "Datas"
-
     S.html . renderHtml $ do
        H.h1 "Files By Name" 
-       H.ul $ forM_ files (H.li . (H.a H.! HA.href "screen.css"). H.string )
+       H.ul $ forM_ files renderLink
        		
--- Here I am trying to list all the files however I am not sure how to deal with types, I think 
--- I'll figure it out, but I need to leave it here for today
---      H.ul $ do
---      mconcat $ Prelude.map (\x -> LT.pack (mconcat [H.a, x])) files
 
   S.get "/:word" $ do
     beam <- S.param "word"
@@ -39,8 +33,9 @@ main = S.scotty 3000 $ do
     let s = mconcat ["Scotty, ",beam', " me up!"]
     S.html . renderHtml $ do
                     H.body $ do
-                        H.h1 $ H.toHtml s -- Not ideal but getting there 
-                        -- What would be the way to deliver this without needing to use toHtml (this adds p :( )
+                      -- 1) I tried this with H.string, H.p, H.text S.text  but it doesn't work 
+                        H.h1 $ H.toHtml s 
+                        
 
 renderMarkdown :: String -> IO (Maybe LT.Text)
 renderMarkdown filename = do
@@ -61,7 +56,9 @@ display (Just t) = S.html t
 
 
 renderLink :: String -> H.Html
-renderLink = undefined
+renderLink f = H.li . (H.a H.! HA.href f $ f) H.string $ f  -- 2 this is giving me errors I tried to import Text.Blaze but no luck 
+
+
 --- create links to the files
 --- saves the files
 -- private function <- so that you can generate all your pages
